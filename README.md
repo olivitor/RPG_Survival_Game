@@ -1,4 +1,4 @@
-# ProjetoDeJogos
+# RPG / Survival Game
 
 Group:
 Gabryel Goulart Schürhaus,
@@ -10,4 +10,4 @@ Trello:
 https://trello.com/b/wnmZZzyX/jogo-rpg-sobrevivencia/
 
 Professor:
-Dennis Kerr Coelho
+Dennis Kerr Coelho.

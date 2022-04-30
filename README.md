@@ -1,9 +1,9 @@
 # ProjetoDeJogos
 
 Group:
-Gabryel Goulart Schürhaus;
-Gustavo Prada Hinkel;
-João Pedro;
+Gabryel Goulart Schürhaus,
+Gustavo Prada Hinkel,
+João Pedro,
 Vitor de Oliveira.
 
 Trello:

@@ -10,11 +10,17 @@ public class MapGenerator : MonoBehaviour
 
     [Header("Chunk Settings")]
     private Vector2 chunkSize;
-    [SerializeField] private float perlinSize;
+    [SerializeField] private float groundPerlinSize;
+    [SerializeField] private float vegetationPerlinSize;
+    [SerializeField] private float treePerlinSize;
 
     [Header("Tile Settings")]
     [SerializeField] private Tilemap ground;
+    [SerializeField] private Tilemap vegetation;
     [SerializeField] private TileBase groundTile;
+    [SerializeField] private TileBase tinyGrass;
+    [SerializeField] private TileBase tallGrass;
+    [SerializeField] private TileBase tree;
 
     public Vector2 centerSpacement;
     private MapRenderer mapRenderer;
@@ -37,8 +43,18 @@ public class MapGenerator : MonoBehaviour
         {
             for (var _x = (int)_startPos.x; _x < (int)_startPos.x + chunkSize.x; _x++)
             {
-                float _perlin = Mathf.PerlinNoise((_x + seed) * perlinSize, (_y + seed) * perlinSize);
-                if (_perlin > .5f) ground.SetTile(new Vector3Int(_x, _y), groundTile);
+                float _groundPerlin = Mathf.PerlinNoise((_x + seed) * groundPerlinSize, (_y + seed) * groundPerlinSize);
+                if (_groundPerlin > .5f)
+                {
+                    ground.SetTile(new Vector3Int(_x, _y), groundTile);
+
+                    float _vegetationPerlin = Mathf.PerlinNoise((_x + 512 + seed) * vegetationPerlinSize, (_y + 512 + seed) * vegetationPerlinSize);
+                    if (_vegetationPerlin >= .3f && _groundPerlin < .6f) vegetation.SetTile(new Vector3Int(_x, _y), tinyGrass);
+                    else if (_vegetationPerlin >= .6f && _groundPerlin < .8f) vegetation.SetTile(new Vector3Int(_x, _y), tallGrass);
+
+                    float _treePerlin = Mathf.PerlinNoise((_x + 128 + seed) * treePerlinSize, (_y + 128 + seed) * treePerlinSize);
+                    if (_treePerlin > .8f) vegetation.SetTile(new Vector3Int(_x, _y), tree);
+                }
             }
         }
     }
@@ -46,5 +62,6 @@ public class MapGenerator : MonoBehaviour
     public void ResetChunks()
     {
         ground.ClearAllTiles();
+        vegetation.ClearAllTiles();
     }
 }

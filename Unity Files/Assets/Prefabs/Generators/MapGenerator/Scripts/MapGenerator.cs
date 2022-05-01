@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -24,13 +25,17 @@ public class MapGenerator : MonoBehaviour
 
     public Vector2 centerSpacement;
     private MapRenderer mapRenderer;
+    private MapDatabase mapDatabase;
 
     private void Awake()
     {
         centerSpacement.x = chunkSize.x % 2 == 0 ? 0 : .5f;
         centerSpacement.y = chunkSize.y % 2 == 0 ? 0 : .5f;
+
         mapRenderer = this.GetComponent<MapRenderer>();
         chunkSize = mapRenderer.chunkSize;
+
+        mapDatabase = this.GetComponent<MapDatabase>();
     }
 
     public void DrawChunk(Vector2 _centerPos)
@@ -48,12 +53,20 @@ public class MapGenerator : MonoBehaviour
                 {
                     ground.SetTile(new Vector3Int(_x, _y), groundTile);
 
-                    float _vegetationPerlin = Mathf.PerlinNoise((_x + 512 + seed) * vegetationPerlinSize, (_y + 512 + seed) * vegetationPerlinSize);
-                    if (_vegetationPerlin >= .3f && _groundPerlin < .6f) vegetation.SetTile(new Vector3Int(_x, _y), tinyGrass);
-                    else if (_vegetationPerlin >= .6f && _groundPerlin < .8f) vegetation.SetTile(new Vector3Int(_x, _y), tallGrass);
+                    var _tile = mapDatabase.tiles.FirstOrDefault(o => o.tilePosition == new Vector3Int(_x, _y));
+                    if (_tile != null)
+                    {
+                        vegetation.SetTile(new Vector3Int(_x, _y), _tile.tileReference);
+                    }
+                    else
+                    {
+                        float _vegetationPerlin = Mathf.PerlinNoise((_x + 512 + seed) * vegetationPerlinSize, (_y + 512 + seed) * vegetationPerlinSize);
+                        if (_vegetationPerlin >= .3f && _groundPerlin < .6f) vegetation.SetTile(new Vector3Int(_x, _y), tinyGrass);
+                        else if (_vegetationPerlin >= .6f && _groundPerlin < .8f) vegetation.SetTile(new Vector3Int(_x, _y), tallGrass);
 
-                    float _treePerlin = Mathf.PerlinNoise((_x + 128 + seed) * treePerlinSize, (_y + 128 + seed) * treePerlinSize);
-                    if (_treePerlin > .8f) vegetation.SetTile(new Vector3Int(_x, _y), tree);
+                        float _treePerlin = Mathf.PerlinNoise((_x + 128 + seed) * treePerlinSize, (_y + 128 + seed) * treePerlinSize);
+                        if (_treePerlin > .8f) vegetation.SetTile(new Vector3Int(_x, _y), tree);
+                    }
                 }
             }
         }

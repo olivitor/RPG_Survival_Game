@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 363078822}
   - component: {fileID: 363078821}
   - component: {fileID: 363078823}
+  - component: {fileID: 363078824}
   m_Layer: 0
   m_Name: Generator
   m_TagString: Untagged
@@ -193,6 +194,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 519420028}
   chunkSize: {x: 32, y: 16}
+--- !u!114 &363078824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363078820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd19223938eabe34db29ba8c0d185b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
